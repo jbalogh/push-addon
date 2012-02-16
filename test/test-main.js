@@ -26,7 +26,7 @@ exports['test:http'] = function(test) {
 };
 
 
-exports['test:navigator.mozPush'] = function(test) {
+exports['test:navigator.mozNotification'] = function(test) {
   tabs.on('ready', function(tab) {
     tab.attach({
       contentScriptWhen: 'start',

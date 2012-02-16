@@ -25,9 +25,9 @@
   <body>
     <script>
       document.addEventListener('DOMContentLoaded', function(){
-        assert('mozPush' in navigator);
-        assert(navigator.mozPush.requestRemotePermission);
-        assert(navigator.mozPush.checkRemotePermission);
+        assert('mozNotification' in navigator);
+        assert(navigator.mozNotification.requestRemotePermission);
+        assert(navigator.mozNotification.checkRemotePermission);
         done();
       });
     </script>

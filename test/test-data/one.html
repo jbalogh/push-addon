@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var pass = 0, fail = 0;
+      function assert(t) {
+        if (!!t) {
+          pass++;
+        } else {
+          fail++;
+          console.trace();
+        }
+      }
+
+      function done() {
+        document.body.setAttribute('pass', pass);
+        document.body.setAttribute('fail', fail);
+
+        var e = document.createEvent('Event');
+        e.initEvent('testDone', true, true);
+        document.dispatchEvent(e);
+      }
+    </script>
+  </head>
+  <body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+        assert('mozPush' in navigator);
+        assert(navigator.mozPush.requestRemotePermission);
+        assert(navigator.mozPush.checkRemotePermission);
+        done();
+      });
+    </script>
+  </body>
+</html>

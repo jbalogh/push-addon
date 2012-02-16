@@ -1,7 +1,8 @@
 let env = require('environment').env,
     httpd = require('httpd'),
     main = require('main'),
-    request = require('request');
+    request = require('request'),
+    tabs = require('tabs');
 
 let PORT = 9984,
     HOST = 'http://localhost:' + PORT;
@@ -21,5 +22,29 @@ exports['test:http'] = function(test) {
       test.done()
     }
   }).get();
+  test.waitUntilDone();
+};
+
+
+exports['test:navigator.mozPush'] = function(test) {
+  tabs.on('ready', function(tab) {
+    tab.attach({
+      contentScriptWhen: 'start',
+      contentScript: 'new ' + function() {
+        document.addEventListener('testDone', function(e) {
+          let pass = document.body.getAttribute('pass'),
+              fail = document.body.getAttribute('fail');
+          self.postMessage([pass, fail]);
+        });
+      },
+      onMessage: function(m) {
+        test.assert(m[0] > 0, m[0] + " tests passed.");
+        test.assert(m[1] == 0, m[1] == 1 ? "1 test failed."
+                                         : m[1] + " tests failed.");
+        test.done();
+      }
+    });
+  });
+  tabs.open(HOST + '/one.html');
   test.waitUntilDone();
 };

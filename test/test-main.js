@@ -33,18 +33,49 @@ exports['test:navigator.mozNotification'] = function(test) {
       contentScript: 'new ' + function() {
         document.addEventListener('testDone', function(e) {
           let pass = document.body.getAttribute('pass'),
-              fail = document.body.getAttribute('fail');
-          self.postMessage([pass, fail]);
+              fail = document.body.getAttribute('fail'),
+              timeout = document.body.getAttribute('timeout');
+        console.log('post message');
+          self.postMessage([pass, fail, timeout]);
         });
       },
       onMessage: function(m) {
         test.assert(m[0] > 0, m[0] + " tests passed.");
         test.assert(m[1] == 0, m[1] == 1 ? "1 test failed."
                                          : m[1] + " tests failed.");
+        test.assert(m[2] == 0, m[2] == 1 ? "1 test timed out."
+                                         : m[2] + " tests timed out.");
         test.done();
       }
     });
   });
   tabs.open(HOST + '/one.html');
+  test.waitUntilDone();
+};
+
+exports['test:checkRemotePermission'] = function(test) {
+  tabs.on('ready', function(tab) {
+    tab.attach({
+      contentScriptWhen: 'start',
+      contentScript: 'new ' + function() {
+        document.addEventListener('testDone', function(e) {
+          let pass = document.body.getAttribute('pass'),
+              fail = document.body.getAttribute('fail'),
+              timeout = document.body.getAttribute('timeout');
+        console.log('post message');
+          self.postMessage([pass, fail, timeout]);
+        });
+      },
+      onMessage: function(m) {
+        test.assert(m[0] > 0, m[0] + " tests passed.");
+        test.assert(m[1] == 0, m[1] == 1 ? "1 test failed."
+                                         : m[1] + " tests failed.");
+        test.assert(m[2] == 0, m[2] == 1 ? "1 test timed out."
+                                         : m[2] + " tests timed out.");
+        test.done();
+      }
+    });
+  });
+  tabs.open(HOST + '/two.html');
   test.waitUntilDone();
 };

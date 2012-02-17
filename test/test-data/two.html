@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test that checkRemotePermission with no data returns an empty result.</title>
+    <script src="helpers.js"></script>
+  </head>
+  <body>
+    <script>
+      tests(function(){
+        var request = navigator.mozNotification.checkRemotePermission();
+        request.onsuccess = function() {
+          assert('url' in request.result);
+          // The URL should be empty since we haven't set up anything.
+          assert(!request.result.url);
+          stopWaiting();
+        };
+        wait();
+      });
+    </script>
+  </body>
+</html>
+

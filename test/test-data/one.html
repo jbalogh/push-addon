@@ -6,10 +6,10 @@
   </head>
   <body>
     <script>
-      tests(function(){
-        assert('mozNotification' in navigator);
-        assert(navigator.mozNotification.requestRemotePermission);
-        assert(navigator.mozNotification.checkRemotePermission);
+      T.tests(function(){
+        T.assert('mozNotification' in navigator);
+        T.assert(navigator.mozNotification.requestRemotePermission);
+        T.assert(navigator.mozNotification.checkRemotePermission);
       });
     </script>
   </body>

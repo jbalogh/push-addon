@@ -6,17 +6,16 @@
   </head>
   <body>
     <script>
-      tests(function(){
+      T.tests(function(){
         var request = navigator.mozNotification.checkRemotePermission();
         request.onsuccess = function() {
-          assert('url' in request.result);
+          T.assert('url' in request.result);
           // The URL should be empty since we haven't set up anything.
-          assert(!request.result.url);
-          stopWaiting();
+          T.assert(!request.result.url);
+          T.stopWaiting();
         };
-        wait();
+        T.wait();
       });
     </script>
   </body>
 </html>
-

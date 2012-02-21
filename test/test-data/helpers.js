@@ -1,3 +1,5 @@
+var T = (function() {
+
 var pass = 0,
     fail = 0,
     timeout = 0,
@@ -43,3 +45,11 @@ function tests(fun) {
     done();
   });
 }
+
+return {
+  'tests': tests,
+  'assert': assert,
+  'wait': wait,
+  'stopWaiting': stopWaiting
+};
+})();

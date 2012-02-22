@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Check that requestRemotePermission sets up a new notification URL.</title>
+    <script src="helpers.js"></script>
+  </head>
+  <body>
+    <script>
+      T.tests(function(){
+        var checkRequest = navigator.mozNotification.checkRemotePermission();
+        checkRequest.onsuccess = function() {
+          T.assert('url' in checkRequest.result);
+          // The URL should be empty since we haven't set up anything.
+          T.assert(!checkRequest.result.url);
+
+
+          var request = navigator.mozNotification.requestRemotePermission();
+          request.onsuccess = function() {
+            T.assert('url' in request.result);
+            // The URL should be available now.
+            T.assert(request.result.url);
+
+            // checkRemotePermission should get the same URL now.
+            var url = request.result.url;
+            navigator.mozNotification.checkRemotePermission().onsuccess = function(e) {
+              T.assert(e.target.url === url);
+              T.stopWaiting();
+            };
+          };
+        };
+        T.wait();
+      });
+    </script>
+  </body>
+</html>

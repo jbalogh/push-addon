@@ -5,5 +5,12 @@
     "version": "0.1",
     "fullName": "push",
     "id": "jid1-ihHhZ5p9O2ZHgw",
-    "description": "push notifications"
+    "description": "push notifications",
+
+    "preferences": [
+      {"name": "push.server",
+       "title": "URL of the server used for push notifcations.",
+       "type": "string",
+       "value": "http://push.jbalogh.me"}
+    ]
 }

@@ -35,7 +35,6 @@ function testPage(name) {
             let pass = document.body.getAttribute('pass'),
                 fail = document.body.getAttribute('fail'),
                 timeout = document.body.getAttribute('timeout');
-          console.log('post message');
             self.postMessage([pass, fail, timeout]);
           });
         },
@@ -56,3 +55,4 @@ function testPage(name) {
 
 exports['test:navigator.mozNotification'] = testPage('/one.html');
 exports['test:checkRemotePermission'] = testPage('/two.html');
+exports['test:requestRemotePermission'] = testPage('/three.html');

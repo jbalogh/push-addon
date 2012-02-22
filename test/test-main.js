@@ -56,3 +56,16 @@ function testPage(name) {
 exports['test:navigator.mozNotification'] = testPage('/one.html');
 exports['test:checkRemotePermission'] = testPage('/two.html');
 exports['test:requestRemotePermission'] = testPage('/three.html');
+
+/* TODO: tests
+ * use a local test server
+ * checkPermission error
+ * requestRemotePermission errors:
+ ** server isn't there
+ ** server returns a negative response (40x/50x)
+ ** server returns an invalid response (bad JSON)
+ * should only get one token
+ * should remember queues that have been fetched previously
+ * check that the right data/headers sent for getting token and getting queue
+ * test confirmation dialog
+ */

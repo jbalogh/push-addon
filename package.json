@@ -11,6 +11,10 @@
       {"name": "push.server",
        "title": "URL of the server used for push notifcations.",
        "type": "string",
-       "value": "http://push.jbalogh.me"}
+       "value": "http://push.jbalogh.me"},
+      {"name": "push.websocket",
+       "title": "URL of the server used for websocket connections.",
+       "type": "string",
+       "value": "ws://socket.jbalogh.me:8888"}
     ]
 }

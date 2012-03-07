@@ -1,12 +1,6 @@
-console.log('PANEL');
-console.log(document);
-
 var notifications = [];
 
 self.port.on('message:init', function(messages) {
-  console.log('INIT', typeof messages);
-  console.log('INIT', messages);
-  console.log('INIT', JSON.stringify(messages));
   notifications = messages;
   render();
 });
@@ -48,7 +42,6 @@ function render() {
   }
 
   list.innerHTML = Mustache.render(template, view);
-  console.log(Mustache.render(template, view));
 }
 
 var icons = {

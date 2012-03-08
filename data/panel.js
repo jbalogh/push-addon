@@ -36,7 +36,9 @@ function render() {
 
 
   for (var domain in groups) {
-    var site = {domain: domain, name: domain, icon: icons[domain]};
+    var site = {domain: domain,
+                name: domain,
+                icon: icons[domain] || icons["default"]};
     site.notifications = groups[domain];
     view.sites.push(site);
   }
@@ -45,6 +47,7 @@ function render() {
 }
 
 var icons = {
+  "default": "http://f.cl.ly/items/0N080k1R040w1U2L223s/signal.png",
   "facebook.com": "http://a3.mzstatic.com/us/r1000/086/Purple/03/df/55/mzl.ziwhldlf.175x175-75.jpg",
   "foursquare.com": "https://static-s.foursquare.com/img/touch-icon-ipad-1d5a99e90171f6a0cc2f74920ec24021.png",
   "twitter.com": "https://si0.twimg.com/twitter-mobile/d23caade6d08e27a428c5e60a1b67371ccaf4569/images/apple-touch-icon-114.png",

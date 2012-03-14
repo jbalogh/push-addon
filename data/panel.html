@@ -88,7 +88,7 @@
         <ul>
           {{#notifications}}
           <li class="message">
-            <a href="http://{{site}}#{{title}}">
+            <a {{#actionUrl}}href="{{ actionUrl }}"{{/actionUrl}}>
               <h3>{{title}} <time>{{prettyTime}}</time></h3>
               {{#body}}
               <p>{{body}}</p>

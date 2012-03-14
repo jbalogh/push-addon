@@ -10,6 +10,17 @@ self.port.on('message', function(message) {
   render();
 });
 
+document.addEventListener('click', function(e) {
+  for (var el = e.target; el.parentNode; el = el.parentNode) {
+    if (el.tagName.toLowerCase() == 'a') {
+      e.preventDefault();
+      self.port.emit('click', el.getAttribute('href'),
+                     /* Middle click triggers background tab. */
+                     e.button == 1);
+    }
+  }
+});
+
 
 function render() {
   var list = document.getElementById('notifications'),

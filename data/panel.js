@@ -55,6 +55,8 @@ function render() {
   }
 
   list.innerHTML = Mustache.render(template, view);
+  // I don't know why I need 12 extra pixels.
+  self.port.emit('height', document.body.offsetHeight + 12);
 }
 
 var icons = {

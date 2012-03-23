@@ -92,6 +92,7 @@
         width: 80%;
       }
     </style>
+    <link rel="stylesheet" href="http://z.jbalogh.me/font-awesome.css">
   </head>
   <body>
     <div id="box">
@@ -107,7 +108,7 @@
           {{#notifications}}
           <li class="message">
             <a data-index="{{index}}" {{#actionUrl}}href="{{ actionUrl }}"{{/actionUrl}}>
-              <h3>{{title}} <b class="del">x</b> <time>{{prettyTime}}</time></h3>
+              <h3>{{title}} <b class="del icon-remove"></b> <time>{{prettyTime}}</time></h3>
               {{#body}}
               <p>{{body}}</p>
               {{/body}}

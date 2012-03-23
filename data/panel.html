@@ -24,7 +24,7 @@
         font-weight: normal;
       }
       h1 {
-        margin: 10px 0 0 5px;
+        margin: 10px 0 10px 5px;
         padding-left: 30px;
         background: url(http://z.jbalogh.me/logo.png) left top no-repeat;
         font-size: 28px;
@@ -51,6 +51,7 @@
       .message {
         padding: 0 5px 0 36px;
         font-size: 12px;
+        position: relative;
       }
       .message:hover {
         background: #fffcda;
@@ -65,10 +66,26 @@
         border: none;
       }
       time {
-        margin-right: 6px;
+        margin-right: 24px;
         font-size: 10px;
         font-weight: normal;
         float: right;
+      }
+      .del {
+        position: absolute;
+        top: 8px;
+        right: 2px;
+        display: inline-box;
+        font-size: 11px;
+        padding: 4px;
+      }
+      .del:hover {
+        color: red;
+        background: rgba(180, 180, 180, .4);
+        border-radius: 2px;
+        border: 1px rgba(110, 110, 110, .4) solid;
+        cursor: pointer;
+        -moz-user-select: none;
       }
       .message p {
         clear: both;
@@ -89,8 +106,8 @@
         <ul>
           {{#notifications}}
           <li class="message">
-            <a {{#actionUrl}}href="{{ actionUrl }}"{{/actionUrl}}>
-              <h3>{{title}} <time>{{prettyTime}}</time></h3>
+            <a data-index="{{index}}" {{#actionUrl}}href="{{ actionUrl }}"{{/actionUrl}}>
+              <h3>{{title}} <b class="del">x</b> <time>{{prettyTime}}</time></h3>
               {{#body}}
               <p>{{body}}</p>
               {{/body}}

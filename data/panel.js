@@ -10,6 +10,11 @@ self.port.on('message', function(message) {
   render();
 });
 
+self.port.on('delete', function(index) {
+  notifications.splice(index, 1);
+  render();
+});
+
 document.addEventListener('click', function(e) {
   for (var el = e.target; el.parentNode; el = el.parentNode) {
     if (el.tagName.toLowerCase() == 'a') {
@@ -17,10 +22,16 @@ document.addEventListener('click', function(e) {
       self.port.emit('click', el.getAttribute('href'),
                      /* Middle click triggers background tab. */
                      e.button == 1);
+      if (el.hasAttribute('data-index')) {
+        self.port.emit('delete', el.getAttribute('data-index'));
+      }
+      return;
+    } else if (el.classList.contains('del')) {
+      e.preventDefault();
+      return self.port.emit('delete', el.parentNode.parentNode.getAttribute('data-index'));
     }
   }
 });
-
 
 function render() {
   var list = document.getElementById('notifications'),
@@ -34,8 +45,9 @@ function render() {
   });
 
   // Clean up the time element.
-  notifications.forEach(function(e) {
+  notifications.forEach(function(e, index) {
     e.prettyTime = prettyDate(e.time);
+    e.index = index;
   });
 
   // notifications.groupBy('site')

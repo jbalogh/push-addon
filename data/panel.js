@@ -29,13 +29,33 @@ document.addEventListener('click', function(e) {
     } else if (el.classList.contains('del')) {
       e.preventDefault();
       return self.port.emit('delete', el.parentNode.parentNode.getAttribute('data-index'));
+    } else if (el.classList.contains('header-link')) {
+      $('c2').classList.toggle('flipped');
+    } else if (el.parentNode.id == 'tabs') {
+      selectTab(el);
     }
   }
 });
 
+function $(s) {
+  return document.getElementById(s);
+}
+
+function $$(s) {
+  return Array.prototype.slice.call(document.querySelectorAll(s));
+}
+
+function selectTab(el) {
+  $$('#tabs .selected, .tab.selected').forEach(function(e) {
+    e.classList.toggle('selected');
+  });
+  el.classList.add('selected');
+  $(el.getAttribute('data-target')).classList.add('selected');
+}
+
 function render() {
-  var list = document.getElementById('notifications'),
-      template = document.getElementById('template').textContent,
+  var list = $('notifications'),
+      template = $('notifications-template').textContent,
       view = {sites: []};
 
   notifications.sort(function(a, b) {
@@ -67,8 +87,27 @@ function render() {
   }
 
   list.innerHTML = Mustache.render(template, view);
-  // I don't know why I need 12 extra pixels.
-  self.port.emit('height', document.body.offsetHeight + 12);
+  renderSettings();
+}
+
+function renderSettings() {
+  var list = $('site-settings'),
+      template = $('site-settings-template').textContent,
+      view = {sites: []},
+      sites = {};
+
+  notifications.forEach(function(e) {
+    var domain = e.site;
+    if (!(domain in sites)) {
+      view.sites.push({domain: domain,
+                       icon: icons[domain] || icons["default"],
+                       latest: e.prettyTime});
+      sites[domain] = true;
+
+    }
+  });
+
+  list.innerHTML = Mustache.render(template, view);
 }
 
 var icons = {

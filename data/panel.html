@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <title>Notification Center</title>
     <style>
       * {
@@ -13,11 +14,18 @@
         background: #fff;
         overflow-x: hidden;
       }
+      .clearfix:before, .clearfix:after {
+        display: table;
+        content: "";
+      }
+      .clearfix:after {
+        clear: both;
+      }
       a {
         text-decoration: none;
         color: inherit;
       }
-      #box {
+      .pane {
         width: 400px;
       }
       h1, h2, h3 {
@@ -27,7 +35,17 @@
         margin: 10px 0 10px 5px;
         padding-left: 30px;
         background: url(http://z.jbalogh.me/logo.png) left top no-repeat;
-        font-size: 28px;
+        font-size: 24px;
+      }
+      #tabs li:not(.selected),
+      .link {
+        cursor: pointer;
+        color: #00a0d9;
+      }
+      .header-link {
+        float: right;
+        font-size: 12px;
+        margin-top: 8px;
       }
       h2 {
         padding: 5px 0 0 10px;
@@ -45,7 +63,7 @@
         font-weight: bold;
         padding: 12px 0 6px;
       }
-      ul {
+      ul, ol {
         list-style-type: none;
       }
       .message {
@@ -66,7 +84,7 @@
         border: none;
       }
       time {
-        margin-right: 24px;
+        margin: 2px 24px 0 0;
         font-size: 10px;
         font-weight: normal;
         float: right;
@@ -75,7 +93,7 @@
         position: absolute;
         top: 8px;
         right: 2px;
-        display: inline-box;
+        display: inline-block;
         font-size: 11px;
         padding: 4px;
       }
@@ -91,16 +109,120 @@
         clear: both;
         width: 80%;
       }
+
+      #tabs li {
+        float: left;
+        width: 48%;
+      }
+      #tabs li:first-child {
+        margin: 0 1% 0 2%;
+      }
+      #tabs h2 {
+        background: #eee;
+      }
+      #tabs .selected h2 {
+        background: #aaa;
+      }
+      .tab {
+        clear: both;
+        margin: 12px 0 0 2%;
+        font-size: 12px;
+      }
+      .tab:not(.selected) {
+        display: none;
+      }
+
+      #options li {
+        margin-bottom: 8px;
+      }
+
+      #site-settings img {
+        width: 16px;
+        height: 16px;
+        vertical-align: bottom;
+      }
+      .site-options {
+        margin: 4px 48px 0 20px;
+      }
+      .site-options li {
+        background: #eee;
+        margin-bottom: 4px;
+        padding: 4px 20px;
+        position: relative;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .site-options b {
+        position: absolute;
+        left: 4px;
+        top: 3px;
+        display: none;
+      }
+      .site-options li:hover b {
+        display: inline-block;
+      }
+
+      /* http://desandro.github.com/3dtransforms/docs/card-flip.html */
+      #c1 {
+        width: 400px;
+        position: relative;
+        -moz-perspective: 800px;
+      }
+      #c2 {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        -moz-transform-style: preserve-3d;
+        -moz-transition: -moz-transform .5s;
+        -moz-transform-origin: right center;
+      }
+      #c2.flipped {
+        -moz-transform: rotateY(180deg);
+        -moz-transform: translateX(-100%) rotateY(-180deg);
+      }
+      .pane {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -moz-backface-visibility: hidden;
+      }
+      .pane:nth-child(2) {
+        -moz-transform: rotateY(180deg);
+      }
     </style>
     <link rel="stylesheet" href="http://z.jbalogh.me/font-awesome.css">
   </head>
   <body>
-    <div id="box">
-      <h1>Firefox Notifications</h1>
-      <ul id="notifications">
-      </ul>
-    </div>
-    <script id="template" type="template">
+    <div id="c1"><div id="c2">
+      <div id="box" class="pane">
+        <h1>Firefox Notifications <span class="link header-link">settings</span></h1>
+        <ul id="notifications">
+        </ul>
+      </div>
+
+      <div id="settings" class="pane">
+        <h1>Settings <span class="link header-link">back to notifications</span></h1>
+        <ol id="tabs" class="clearfix">
+          <li class="selected" data-target="options"><h2>add-on options</h2></li>
+          <li data-target="site-settings"><h2>your sites</h2></li>
+        </ol>
+        <div id="options" class="tab selected">
+          <p style="margin-bottom: 1em"><b>Note:</b> Some of these settings don't work yet.</p>
+          <form>
+            <ol>
+              <li><label><input type="checkbox"> Turn on notification banner</label></li>
+              <li><label><input type="checkbox" disabled> Pause notifications for 1 hour</label></li>
+              <li><label><input type="checkbox" disabled> Turn on notification sound</label></li>
+            </ol>
+          </form>
+        </div>
+        <div id="site-settings" class="tab">
+        </div>
+      </div>
+    </div></div>
+
+    <script id="notifications-template" type="text/template">
       {{#sites}}
       <li>
         <a href="http://{{domain}}"><h2><img src="{{icon}}"> {{name}}</h2></a>
@@ -118,6 +240,23 @@
         </ul>
       </li>
       {{/sites}}
+    </script>
+
+    <script id="site-settings-template" type="text/template">
+      <p><b>Note:</b> Per-site settings don't work yet.</p>
+      <ol>
+        {{#sites}}
+        <li data-id="{{domain}}">
+          <div>
+            <h3><img src="{{icon}}"> {{domain}} <time>{{latest}}</time></h3>
+            <ol class="site-options">
+              <li>Pause notifications for this site</li>
+              <li class="delete-site"><b class="icon-remove"></b> Stop receiving notifications from this site</li>
+            </ol>
+          </div>
+        </li>
+        {{/sites}}
+      </ol>
     </script>
   </body>
 </html>

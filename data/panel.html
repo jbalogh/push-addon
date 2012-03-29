@@ -180,12 +180,18 @@
         -moz-transform: rotateY(180deg);
         -moz-transform: translateX(-100%) rotateY(-180deg);
       }
+      /* moz-backface-visibility doesn't work on Firefox < 13. */
+      .old .flipped #settings,
       .pane {
         display: block;
         position: absolute;
         width: 100%;
         height: 100%;
         -moz-backface-visibility: hidden;
+      }
+      .old .flipped #box,
+      .old #settings {
+        display: none;
       }
       .pane:nth-child(2) {
         -moz-transform: rotateY(180deg);
@@ -222,6 +228,13 @@
       </div>
     </div></div>
 
+    <script>
+      /* moz-backface-visibility doesn't work on Firefox < 13. */
+      var match = /\/(\d+)[.\w]*$/.exec(navigator.userAgent);
+      if (match[1] < 13) {
+        document.body.classList.add('old');
+      }
+    </script>
     <script id="notifications-template" type="text/template">
       {{#sites}}
       <li>

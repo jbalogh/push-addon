@@ -33,6 +33,8 @@ document.addEventListener('click', function(e) {
       $('c2').classList.toggle('flipped');
     } else if (el.parentNode.id == 'tabs') {
       selectTab(el);
+    } else if (el.id == 'trash') {
+      clearAll();
     }
   }
 });
@@ -43,6 +45,12 @@ function $(s) {
 
 function $$(s) {
   return Array.prototype.slice.call(document.querySelectorAll(s));
+}
+
+function clearAll() {
+  self.port.emit('clear-all');
+  notifications = [];
+  render();
 }
 
 function selectTab(el) {

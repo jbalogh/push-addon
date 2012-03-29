@@ -27,6 +27,7 @@
       }
       .pane {
         width: 400px;
+        position: relative;
       }
       h1, h2, h3 {
         font-weight: normal;
@@ -45,7 +46,7 @@
       .header-link {
         float: right;
         font-size: 12px;
-        margin-top: 8px;
+        line-height: 24px;
       }
       h2 {
         padding: 5px 0 0 10px;
@@ -196,15 +197,35 @@
       .pane:nth-child(2) {
         -moz-transform: rotateY(180deg);
       }
+
+      #footer {
+        text-align: right;
+        position: absolute;
+        top: 350px;
+        left: 380px;
+      }
+      #trash {
+        font-size: 1.5em;
+        display: inline-block;
+        cursor: pointer;
+      }
     </style>
     <link rel="stylesheet" href="http://z.jbalogh.me/font-awesome.css">
   </head>
   <body>
     <div id="c1"><div id="c2">
       <div id="box" class="pane">
-        <h1>Firefox Notifications <span class="link header-link">settings</span></h1>
+        <h1>
+          Firefox Notifications
+          <span class="header-link">
+            <span class="link">settings</span>
+          </span>
+        </h1>
         <ul id="notifications">
         </ul>
+        <div id="footer">
+          <i id="trash" title="Clear All" class="icon-trash"></i>
+        </div>
       </div>
 
       <div id="settings" class="pane">

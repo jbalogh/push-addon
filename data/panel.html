@@ -214,10 +214,10 @@
           <li data-target="site-settings"><h2>your sites</h2></li>
         </ol>
         <div id="options" class="tab selected">
-          <p style="margin-bottom: 1em"><b>Note:</b> Some of these settings don't work yet.</p>
+          <p style="margin-bottom: 1em"><b>Note:</b> Settings don't work yet.</p>
           <form>
             <ol>
-              <li><label><input type="checkbox"> Turn on notification banner</label></li>
+              <li><label><input type="checkbox" disabled> Turn on notification banner</label></li>
               <li><label><input type="checkbox" disabled> Pause notifications for 1 hour</label></li>
               <li><label><input type="checkbox" disabled> Turn on notification sound</label></li>
             </ol>
@@ -256,7 +256,7 @@
     </script>
 
     <script id="site-settings-template" type="text/template">
-      <p><b>Note:</b> Per-site settings don't work yet.</p>
+      <p><b>Note:</b> Settings don't work yet.</p>
       <ol>
         {{#sites}}
         <li data-id="{{domain}}">

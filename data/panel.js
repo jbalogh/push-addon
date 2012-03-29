@@ -111,6 +111,9 @@ function renderSettings() {
 }
 
 var icons = {
+  "Intro": "http://z.jbalogh.me/logo.png",
+  "github.jbalogh.me": "https://github.com/favicon.ico",
+  "github-notifications.herokuapp.com": "https://github.com/favicon.ico",
   "default": "http://f.cl.ly/items/0N080k1R040w1U2L223s/signal.png",
   "facebook.com": "http://a3.mzstatic.com/us/r1000/086/Purple/03/df/55/mzl.ziwhldlf.175x175-75.jpg",
   "foursquare.com": "https://static-s.foursquare.com/img/touch-icon-ipad-1d5a99e90171f6a0cc2f74920ec24021.png",

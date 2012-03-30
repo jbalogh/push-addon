@@ -30,7 +30,7 @@ document.addEventListener('click', function(e) {
       e.preventDefault();
       return self.port.emit('delete', el.parentNode.parentNode.getAttribute('data-index'));
     } else if (el.classList.contains('header-link')) {
-      $('c2').classList.toggle('flipped');
+      document.body.classList.toggle('flipped');
     } else if (el.parentNode.id == 'tabs') {
       selectTab(el);
     } else if (el.id == 'trash') {

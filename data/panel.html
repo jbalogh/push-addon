@@ -167,41 +167,6 @@
         display: inline-block;
       }
 
-      /* http://desandro.github.com/3dtransforms/docs/card-flip.html */
-      #c1 {
-        width: 400px;
-        position: relative;
-        -moz-perspective: 800px;
-      }
-      #c2 {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        -moz-transform-style: preserve-3d;
-        -moz-transition: -moz-transform .5s;
-        -moz-transform-origin: right center;
-      }
-      .flipped #c2 {
-        -moz-transform: rotateY(180deg);
-        -moz-transform: translateX(-100%) rotateY(-180deg);
-      }
-      /* moz-backface-visibility doesn't work on Firefox < 13. */
-      .old .flipped #settings,
-      .pane {
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        -moz-backface-visibility: hidden;
-      }
-      .old .flipped #box,
-      .old #settings {
-        display: none;
-      }
-      .pane:nth-child(2) {
-        -moz-transform: rotateY(180deg);
-      }
-
       #footer {
         text-align: right;
         position: fixed;
@@ -247,53 +212,53 @@
         display: inline-block;
         text-decoration: inherit;
       }
+
+      .flipped #box,
+      #settings {
+        display: none;
+      }
+      .flipped #settings {
+        display: block;
+      }
+
     </style>
   </head>
   <body>
-    <div id="c1"><div id="c2">
-      <div id="box" class="pane">
-        <h1>
-          Firefox Notifications
-          <span class="header-link">
-            <span class="link">settings</span>
-          </span>
-        </h1>
-        <ul id="notifications">
-        </ul>
-      </div>
+    <div id="box" class="pane">
+      <h1>
+        Firefox Notifications
+        <span class="header-link">
+          <span class="link">settings</span>
+        </span>
+      </h1>
+      <ul id="notifications">
+      </ul>
+    </div>
 
-      <div id="settings" class="pane">
-        <h1>Settings <span class="link header-link">back to notifications</span></h1>
-        <ol id="tabs" class="clearfix">
-          <li class="selected" data-target="options"><h2>add-on options</h2></li>
-          <li data-target="site-settings"><h2>your sites</h2></li>
-        </ol>
-        <div id="options" class="tab selected">
-          <p style="margin-bottom: 1em"><b>Note:</b> Settings don't work yet.</p>
-          <form>
-            <ol>
-              <li><label><input type="checkbox" disabled> Turn on notification banner</label></li>
-              <li><label><input type="checkbox" disabled> Pause notifications for 1 hour</label></li>
-              <li><label><input type="checkbox" disabled> Turn on notification sound</label></li>
-            </ol>
-          </form>
-        </div>
-        <div id="site-settings" class="tab">
-        </div>
+    <div id="settings" class="pane">
+      <h1>Settings <span class="link header-link">back to notifications</span></h1>
+      <ol id="tabs" class="clearfix">
+        <li class="selected" data-target="options"><h2>add-on options</h2></li>
+        <li data-target="site-settings"><h2>your sites</h2></li>
+      </ol>
+      <div id="options" class="tab selected">
+        <p style="margin-bottom: 1em"><b>Note:</b> Settings don't work yet.</p>
+        <form>
+          <ol>
+            <li><label><input type="checkbox" disabled> Turn on notification banner</label></li>
+            <li><label><input type="checkbox" disabled> Pause notifications for 1 hour</label></li>
+            <li><label><input type="checkbox" disabled> Turn on notification sound</label></li>
+          </ol>
+        </form>
       </div>
-    </div></div>
+      <div id="site-settings" class="tab">
+      </div>
+    </div>
 
     <div id="footer">
       <i id="trash" title="Clear All" class="icon-trash"><span>Clear All</span></i>
     </div>
 
-    <script>
-      /* moz-backface-visibility doesn't work on Firefox < 13. */
-      var match = /\/(\d+)[.\w]*$/.exec(navigator.userAgent);
-      if (match[1] < 13) {
-        document.body.classList.add('old');
-      }
-    </script>
     <script id="notifications-template" type="text/template">
       {{#sites}}
       <li>

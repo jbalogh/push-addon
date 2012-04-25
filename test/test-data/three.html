@@ -13,17 +13,23 @@
           // The URL should be empty since we haven't set up anything.
           T.assert(!checkRequest.result.url);
 
-
           var request = navigator.mozNotification.requestRemotePermission();
           request.onsuccess = function() {
             T.assert('url' in request.result);
             // The URL should be available now.
             T.assert(request.result.url);
 
+            // and contain the encryption keyblock
+            T.assert(request.result.encryptionKey);
+            T.assert(request.result.hmac);
+
             // checkRemotePermission should get the same URL now.
             var url = request.result.url;
+            var kb = request.result;
             navigator.mozNotification.checkRemotePermission().onsuccess = function(e) {
-              T.assert(e.target.url === url);
+                T.assert(e.target.url === url);
+                T.assert(e.target.encryptionUrl === kb.encryptionUrl);
+                T.assert(e.target.hmac === kb.hmac);
               T.stopWaiting();
             };
           };

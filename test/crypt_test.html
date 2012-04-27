@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test the crypto functions</title>
+    </head>
+    <body>
+        <script src="sjcl.js"></script>
+        <script src="fncrypto/js/fncrypto.js"></script>
+        <script>
+
+            var xhr = XMLHttpRequest();
+
+            function sendCrypto(keyBundle) {
+                // try sending an encrypted status message.
+                // encrypt a message
+                var fnc = new FNCrypto();
+                var hostname = window.location.hostname;
+                var kb = JSON.stringify(fnc.encrypt(JSON.stringify({'title': 'Encrypted Message',
+                    'body': 'This message was successfully decrypted. Yay!',
+                    'actionUrl': 'http://www.youtube.com/watch?v=lIRMXJOtfMY'}),
+                    hostname,       // usually optional
+                    keyBundle));    // contains "encryptedKey" and "hmac"
+
+                // Generate the message wrapper to send. 
+                var notif = {'title': 'message wrapper',
+                    'time': new Date(),
+                    'body': 'dammit',
+                    'cryptoBlock': kb};
+                // and post it to the URL.
+                console.debug('Post', keyBundle.url);
+                console.debug('post:', JSON.stringify(notif));
+                xhr.open('POST', keyBundle.url);
+                xhr.send(JSON.stringify(notif));
+            };
+
+            console.debug('Starting test');
+            var notif = navigator.mozNotification;
+            if (notif && notif.requestRemotePermission){
+                var cr = navigator.mozNotification.checkRemotePermission();
+                cr.onsuccess = function() {
+                    console.debug('check success', cr.result);
+                };
+                if (cr.result.url) {
+                    // We've already registered this site.
+                    sendCrypto(cr.result);
+                }
+                else {
+                    var rr= navigator.mozNotification.requestRemotePermission();
+                    rr.onsuccess = function() {
+                        // The returned result contains the URL to send to, and the
+                        // encryption components to use. KEEP IT SAFE!
+                        sendCrypto(rr.result);
+                    }
+                }
+            }
+            else {
+                alert('fail');
+            }
+        </script>
+    </body>
+</html>

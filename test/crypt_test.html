@@ -36,23 +36,22 @@
                 // try sending an encrypted status message.
                 // encrypt a message
                 var fnc = new FNCrypto();
-                var hostname = window.location.hostname;
                 var encStuff = document.getElementById('encrypted');
                 var kb = JSON.stringify(fnc.encrypt(JSON.stringify(
                     {'title': encStuff.title.value,
                     'body': encStuff.body.value,
                     'actionUrl': encStuff.actionUrl.value}),
-                    hostname,       // usually optional
                     keyBundle));    // contains "encryptedKey" and "hmac"
 
-                    // Generate the message wrapper to send. 
+                // Generate the message wrapper to send. 
                 // This stuff gets overwritten by the contents of cryptoBlock
                 var unencStuff = document.getElementById('unencrypted');
                 var notif = {'title': unencStuff.title.value,
                     'time': new Date(),
                     'body': unencStuff.body.value,
                     'actionUrl': unencStuff.actionUrl.value,
-                    'cryptoBlock': kb};
+                    'cryptoBlock': kb
+                };
                 // and post it to the URL.
                 console.debug('Posting to ', keyBundle.url);
                 console.debug('POST body:', JSON.stringify(notif));
@@ -80,6 +79,7 @@
                     rr.onsuccess = function() {
                         // The returned result contains the URL to send to, and the
                         // encryption components to use. KEEP IT SAFE!
+                        console.info('request result', JSON.stringify(rr.result));
                         sendCrypto(rr.result);
                     }
                 }

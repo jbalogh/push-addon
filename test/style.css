@@ -1,0 +1,26 @@
+label {width: 5em;
+    text-align:right;
+    display: inline-block;
+}
+input { width: 25em;
+    font-family: courier new, monospace;}
+button { width: 10em;
+    display:block;
+    background-color: #FEF;
+    margin: 0 auto;}
+body {width: 40em;
+    font-family: arial;
+    margin: 0 auto;
+    padding:0;
+    background: #EEE;
+}
+section {
+    border-radius: 13px;
+    border: 4px solid #DEDEDE;
+    margin: 2px 0;
+    padding: 3px;
+}
+section.unencrypted, section.unencrypted input {
+    color: #888;
+}
+h2 {margin: 0; padding: 0; }

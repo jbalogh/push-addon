@@ -88,6 +88,22 @@
         padding-bottom: 6px;
         border: none;
       }
+      .encrypted:before {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        top: .5em;
+        opacity: .1;
+        line-height: 0;
+        width:0;
+        height:0;
+        color: red;
+        font-family: FontAwesome;
+        font-weight: bold;
+        font-size: 300%;
+        content: "\f023";
+      }
       time {
         margin: 2px 24px 0 0;
         font-size: 10px;
@@ -245,9 +261,9 @@
         <p style="margin-bottom: 1em"><b>Note:</b> Settings don't work yet.</p>
         <form>
           <ol>
-            <li><label><input type="checkbox" disabled> Turn on notification banner</label></li>
-            <li><label><input type="checkbox" disabled> Pause notifications for 1 hour</label></li>
-            <li><label><input type="checkbox" disabled> Turn on notification sound</label></li>
+            <li><label><input name="banner" type="checkbox" disabled> Turn on notification banner</label></li>
+            <li><label><input name="hour" type="checkbox" disabled> Pause notifications for 1 hour</label></li>
+            <li><label><input name="silent" type="checkbox" disabled> Turn on notification sound</label></li>
           </ol>
         </form>
       </div>
@@ -265,8 +281,8 @@
         <a href="http://{{domain}}"><h2><img src="{{icon}}"> {{name}}</h2></a>
         <ul>
           {{#notifications}}
-          <li class="message">
-            <a data-index="{{index}}" {{#actionUrl}}href="{{ actionUrl }}"{{/actionUrl}}>
+          <li class="message {{#encrypted}}encrypted{{/encrypted}}">
+            <a data-index="{{index}}" origin="{{origin}}" {{#actionUrl}}href="{{ actionUrl }}"{{/actionUrl}}>
               <h3>{{title}} <b class="del icon-remove"></b> <time>{{prettyTime}}</time></h3>
               {{#body}}
               <p>{{body}}</p>

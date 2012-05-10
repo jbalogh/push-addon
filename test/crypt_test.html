@@ -7,24 +7,25 @@
     </head>
     <body>
         <section class="encrypted">
-        <h2>Encrypted Stuff</h2>
-        <p>This page attempts to send an encrypted message to itself. For added fun, open the debugging console.</p>
-        <form id="encrypted">
-        <p><label for="title">Title:</label><input name="title" value="Shh! This is a secret!"/></p>
-        <p><label for="body">Body:</label><input name="body" value="Yay! it worked!" /></p>
-        <p><label for="actionUrl">URL:</label><input name="actionUrl" value="http://www.youtube.com/watch?v=lIRMXJOtfMY" /></p>
-        </form>
+            <h2>Encrypted Stuff</h2>
+            <p>This page attempts to send an encrypted message to itself. For added fun, open the debugging console.</p>
+            <form id="encrypted">
+                <p><label for="title">Title:</label><input name="title" value="Shh! This is a secret!"/></p>
+                <p><label for="body">Body:</label><input name="body" value="Yay! it worked!" /></p>
+                <p><label for="actionUrl">URL:</label><input name="actionUrl" value="http://www.youtube.com/watch?v=lIRMXJOtfMY" /></p>
+            </form>
         </section>
         <section class="unencrypted">
-        <h2>Unencrypted wrapper</h2>
-        <p>This section contains the unencrypted wrapper content (or what to display to clients that can't do encrypted)</p>
-        <form id="unencrypted">
-        <p><label for="title">Title:</label><input name="title" value="You have a message"/></p>
-        <p><label for="body">Body:</label><input name="body" value="The chair is against the wall" /></p>
-        <p><label for="actionUrl">URL:</label><input name="actionUrl" value="http://www.youtube.com/watch?v=nQB4nAjZIdE" /></p>
-    </form>
+            <h2>Unencrypted wrapper</h2>
+            <p>This section contains the unencrypted wrapper content (or what to display to clients that can't do encrypted)</p>
+            <form id="unencrypted">
+                <p><label for="title">Title:</label><input name="title" value="You have a message"/></p>
+                <p><label for="body">Body:</label><input name="body" value="The chair is against the wall" /></p>
+                <p><label for="actionUrl">URL:</label><input name="actionUrl" value="http://www.youtube.com/watch?v=nQB4nAjZIdE" /></p>
+            </form>
         </section>
         <button id="send">Send notification</button>
+
         <script src="sjcl.js"></script>
         <!-- the following comes from the FNCrypto/js package (not included) -->
         <script src="fncrypto.js"></script>
@@ -43,7 +44,7 @@
                     'actionUrl': encStuff.actionUrl.value}),
                     keyBundle));    // contains "encryptedKey" and "hmac"
 
-                // Generate the message wrapper to send. 
+                // Generate the message wrapper to send.
                 // This stuff gets overwritten by the contents of cryptoBlock
                 var unencStuff = document.getElementById('unencrypted');
                 var notif = {'title': unencStuff.title.value,
@@ -68,13 +69,15 @@
             if (notif && notif.requestRemotePermission){
                 var cr = navigator.mozNotification.checkRemotePermission();
                 cr.onsuccess = function() {
-                    console.debug('Check success', cr.result);
+                    console.debug('Check success', cr.result, cr.result.url);
                 };
                 if (cr.result.url) {
+                    console.debug('sending crypto to ', cr.result.url)
                     // We've already registered this site.
                     sendCrypto(cr.result);
                 }
                 else {
+                    console.debug('requesting permission')
                     var rr= navigator.mozNotification.requestRemotePermission();
                     rr.onsuccess = function() {
                         // The returned result contains the URL to send to, and the

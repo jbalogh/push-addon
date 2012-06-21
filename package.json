@@ -15,6 +15,6 @@
       {"name": "push.websocket",
        "title": "URL of the server used for websocket connections.",
        "type": "string",
-       "value": "ws://127.0.0.1:8888"}
+       "value": "ws://localhost:8888"}
     ]
 }

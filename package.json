@@ -2,7 +2,7 @@
     "name": "push-notifications",
     "license": "BSD",
     "author": "jbalogh@mozilla.com",
-    "version": "0.1",
+    "version": "0.2.3",
     "fullName": "Push Notifications",
     "id": "push@jbalogh.me",
     "description": "Demo of push notifications for Firefox.",

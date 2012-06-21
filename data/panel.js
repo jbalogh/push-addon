@@ -28,7 +28,8 @@ document.addEventListener('click', function(e) {
       return;
     } else if (el.classList.contains('del')) {
       e.preventDefault();
-      return self.port.emit('delete', el.parentNode.parentNode.getAttribute('data-index'));
+      self.port.emit('delete', el.parentNode.parentNode.getAttribute('data-index'));
+      return;
     } else if (el.classList.contains('header-link')) {
       document.body.classList.toggle('flipped');
     } else if (el.parentNode.id == 'tabs') {

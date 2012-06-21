@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test the crypto functions</title>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+    </head>
+    <body>
+        <section class="encrypted">
+            <h2>Encrypted Stuff</h2>
+            <p>This page attempts to send an encrypted message to itself. For added fun, open the debugging console.</p>
+            <form id="encrypted">
+                <p><label for="title">Title:</label><input name="title" value="Shh! This is a secret!"/></p>
+                <p><label for="body">Body:</label><input name="body" value="Yay! it worked!" /></p>
+                <p><label for="actionUrl">URL:</label><input name="actionUrl" value="http://www.youtube.com/watch?v=lIRMXJOtfMY" /></p>
+            </form>
+        </section>
+        <section class="unencrypted">
+            <h2>Unencrypted wrapper</h2>
+            <p>This section contains the unencrypted wrapper content (or what to display to clients that can't do encrypted)</p>
+            <form id="unencrypted">
+                <p><label for="title">Title:</label><input name="title" value="You have a message"/></p>
+                <p><label for="body">Body:</label><input name="body" value="The chair is against the wall" /></p>
+                <p><label for="actionUrl">URL:</label><input name="actionUrl" value="http://www.youtube.com/watch?v=nQB4nAjZIdE" /></p>
+            </form>
+        </section>
+        <button id="send">Send notification</button>
+
+        <script src="sjcl.js"></script>
+        <!-- the following comes from the FNCrypto/js package (not included) -->
+        <script src="fncrypto.js"></script>
+        <script>
+
+            var xhr = XMLHttpRequest();
+
+            function sendCrypto(keyBundle) {
+                // try sending an encrypted status message.
+                // encrypt a message
+                var fnc = new FNCrypto();
+                var encStuff = document.getElementById('encrypted');
+                var kb = JSON.stringify(fnc.encrypt(JSON.stringify(
+                    {'title': encStuff.title.value,
+                    'body': encStuff.body.value,
+                    'actionUrl': encStuff.actionUrl.value}),
+                    keyBundle));    // contains "encryptedKey" and "hmac"
+
+                // Generate the message wrapper to send.
+                // This stuff gets overwritten by the contents of cryptoBlock
+                var unencStuff = document.getElementById('unencrypted');
+                var notif = {'title': unencStuff.title.value,
+                    'time': new Date(),
+                    'body': unencStuff.body.value,
+                    'actionUrl': unencStuff.actionUrl.value,
+                    'cryptoBlock': kb
+                };
+                // and post it to the URL.
+                console.debug('Posting to ', keyBundle.url);
+                console.debug('POST body:', JSON.stringify(notif));
+                xhr.open('POST', keyBundle.url);
+                xhr.send(JSON.stringify(notif));
+            };
+
+            console.debug('Starting test');
+
+
+            function send() {
+                console.debug('Sending message');
+            var notif = navigator.mozNotification;
+            if (notif && notif.requestRemotePermission){
+                var cr = navigator.mozNotification.checkRemotePermission();
+                cr.onsuccess = function() {
+                    console.debug('Check success', cr.result, cr.result.url);
+                };
+                if (cr.result.url) {
+                    console.debug('sending crypto to ', cr.result.url)
+                    // We've already registered this site.
+                    sendCrypto(cr.result);
+                }
+                else {
+                    console.debug('requesting permission')
+                    var rr= navigator.mozNotification.requestRemotePermission();
+                    rr.onsuccess = function() {
+                        // The returned result contains the URL to send to, and the
+                        // encryption components to use. KEEP IT SAFE!
+                        console.info('request result', JSON.stringify(rr.result));
+                        sendCrypto(rr.result);
+                    }
+                }
+            }
+            else {
+                alert('fail. Something went horribly wrong.');
+            }
+        }
+
+        document.getElementById('send').addEventListener('click', send);
+        document.addEventListener('DOMContentLoaded', send);
+        </script>
+    </body>
+</html>

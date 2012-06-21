@@ -2,7 +2,7 @@
     "name": "push-notifications",
     "license": "BSD",
     "author": "jbalogh@mozilla.com",
-    "version": "0.1",
+    "version": "0.2.3",
     "fullName": "Push Notifications",
     "id": "push@jbalogh.me",
     "description": "Demo of push notifications for Firefox.",
@@ -11,10 +11,10 @@
       {"name": "push.server",
        "title": "URL of the server used for push notifcations.",
        "type": "string",
-       "value": "http://push.jbalogh.me"},
+       "value": "http://localhost:5001"},
       {"name": "push.websocket",
        "title": "URL of the server used for websocket connections.",
        "type": "string",
-       "value": "ws://socket.jbalogh.me:8888"}
+       "value": "ws://localhost:8888"}
     ]
 }
